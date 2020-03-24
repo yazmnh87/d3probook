@@ -1,15 +1,16 @@
-import React,{useEffect, useRef} from 'react';
+import React from 'react';
 import data from './data/data.json'
 import bar from './bar'
 import * as d3 from 'd3'
+import rd3 from 'react-d3-library';
+const RD3Component = rd3.Component;
 
-let container = d3.select('.chart-container');
+var node = document.createElement('div');
+let container = d3.select(node);
 let barChart = bar();
 let dataset = [...data];
 
 barChart
-    .width(300)
-    .height(200)
     .margin({
         left: 50,
         bottom: 30
@@ -20,16 +21,38 @@ barChart
 
 container.datum(dataset).call(barChart);
 
-function App() {
+// function App() {
 
-  useEffect(()=>{
-    console.log(container)
-  },[])
-  return (
-    <div className="chart-container">
-      
-    </div>
-  );
-}
+//   useEffect(()=>{
+//     console.log(container)
+//   },[])
+//   return (
+//     <div className="chart-container">
+     
+//     </div>
+//   );
+// }
+
+
+
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {d3: ''}
+  }
+
+  componentDidMount() {
+    this.setState({d3: node});
+  }
+
+  render() {
+    return (
+      <div>
+        <RD3Component data={this.state.d3} />
+      </div>
+    )
+  }
+};
 
 export default App;
